@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  MultiThreadingAndLocalDB
 //
-//  Created by Sparsh Chadha on 10/07/24.
+//  Created by Sparsh Chadha on 10/07/24
 //
 
 import UIKit

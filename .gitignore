@@ -1,0 +1,100 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, 
+# MacOS.gitignore & Objective-C.gitignore
+
+## User settings
+xcuserdata/
+DerivedData/
+.idea/
+
+## Compatibility with Xcode 8 and earlier (ignoring temporary files as suggested)
+*.xcscmblueprint
+
+## Compatibility with Xcode 11 and earlier (ignoring IDEWorkspaceChecks.plist files)
+.ideworkspacechecks/
+
+# Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+!*.xcworkspace/xcshareddata/
+
+# Swift Package Manager
+#
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+# Package.resolved
+# *.xcodeproj/project.pbxproj
+# .build/
+.build/
+
+# Carthage
+Carthage/Build/
+
+# CocoaPods
+#
+# We recommend against adding the Pods directory.
+# Add this line if you want to avoid checking in source code from the Pods directory.
+Pods/
+# Comment the Pods line above if you want to check in source code from the Pods directory.
+
+# Fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the 
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+
+# Code Injection by AppCode
+# See https://www.jetbrains.com/help/objc/Code_injection.html
+.idea/
+.appcodeidea/
+sandbox.xcworkspace/
+
+# Realm
+*.realm
+*.realm.lock
+
+# Xcode automatically generated project files
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# AppCode
+*.iml
+out/
+
+# Xcode version management
+.xcode-version
+
+# SwiftUI previews
+.swiftpm/xcode/xcshareddata/swiftpm/Package.resolved
+
+# Build generated
+build/
+
+# Other Ignored Files
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Source control
+*.orig
+
+# Documentation
+.doccarchive
+
+# macOS
+.DS_Store
+
+# End of https://www.gitignore.io/api/xcode
