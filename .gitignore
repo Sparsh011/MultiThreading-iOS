@@ -1,25 +1,24 @@
 # Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, 
-# MacOS.gitignore & Objective-C.gitignore
-
-## User settings
-xcuserdata/
-DerivedData/
+.DS_Store
+#build file
+build/
+#personal settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+#xcode state
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace
+!default.xcworkspace
+xcuserdata
+profile
+*.moved-aside
+DerivedData
 .idea/
-
-## Compatibility with Xcode 8 and earlier (ignoring temporary files as suggested)
-*.xcscmblueprint
-
-## Compatibility with Xcode 11 and earlier (ignoring IDEWorkspaceChecks.plist files)
-.ideworkspacechecks/
-
-# Xcode Patch
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcworkspace/contents.xcworkspacedata
-!*.xcworkspace/xcshareddata/
 
 # Swift Package Manager
 #
@@ -94,7 +93,5 @@ build/
 # Documentation
 .doccarchive
 
-# macOS
-.DS_Store
 
 # End of https://www.gitignore.io/api/xcode
