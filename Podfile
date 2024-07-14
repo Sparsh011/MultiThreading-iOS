@@ -7,6 +7,7 @@ target 'MultiThreadingAndLocalDB' do
   pod 'Shimmer'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'lottie-ios'
 
   # Pods for MultiThreadingAndLocalDB
 

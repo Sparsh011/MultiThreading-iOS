@@ -6,47 +6,20 @@
 //
 
 import UIKit
+import RxSwift
 
 class DebouncingVC: UIViewController, UIGestureRecognizerDelegate {
-    private let searchBar = DebouncingSearchBar()
+    let searchBar = DebouncingSearchBar()
     var debouncingDispatchItem: DispatchWorkItem?
-    private var debouncingViewModel = DebouncingViewModel()
+    var debouncingViewModel = DebouncingViewModel()
+    let disposeBag = DisposeBag()
+    var recipes: [Recipe] = []
+    var collectionView: DebouncingCollectionView?
+    var dataSource = CollectionViewDataSource()
+    var errorView = ErrorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
-        setupConstraints()
-        addTargets()
-    }
-    
-    private func setupViews() {
-        addViews()
-        setCustomPropertiesAndDelegates()
-    }
-    
-    private func addViews() {
-        view.addSubview(searchBar)
-    }
-    
-    private func setCustomPropertiesAndDelegates() {
-        searchBar.delegate = self
-    }
-    
-    private func setupConstraints() {
-        let safeAreaGuide = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -20),
-            searchBar.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 20)
-        ])
-    }
-    
-    private func addTargets() {
-        dismissKeyboardOnScreenTap()
-    }
-    
-    func makeApiCallWithSearchQuery() {
-        let searchQuery: String = searchBar.searchTextField.text ?? ""
-        debouncingViewModel.makeApiCall(withSearchQuery: searchQuery)
+        configure()
     }
 }

@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3EB3298CC8D32588F8BA0A6B /* Pods_MultiThreadingAndLocalDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03BBCED9A34BA8CDAEC2319 /* Pods_MultiThreadingAndLocalDB.framework */; };
+		541564DD2C43C4B300E72144 /* DebouncingResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564DC2C43C4B300E72144 /* DebouncingResponseModel.swift */; };
+		541564E02C43CA3500E72144 /* DebouncingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564DF2C43CA3500E72144 /* DebouncingCollectionView.swift */; };
+		541564E22C4433F700E72144 /* DishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564E12C4433F700E72144 /* DishCell.swift */; };
+		541564E52C4469CC00E72144 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564E42C4469CC00E72144 /* ErrorView.swift */; };
+		541564E82C446D7900E72144 /* error-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 541564E72C446D7900E72144 /* error-anim.json */; };
+		541564EB2C44774F00E72144 /* RecipesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564EA2C44774F00E72144 /* RecipesDataSource.swift */; };
+		541564EE2C44782900E72144 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564ED2C44782900E72144 /* ImageViewExtensions.swift */; };
+		541564F02C447A3200E72144 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541564EF2C447A3200E72144 /* Constants.swift */; };
 		545A3E5A2C41B016003D1D8D /* DebouncingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545A3E592C41B016003D1D8D /* DebouncingVC.swift */; };
 		549717402C3DB9C7007FBEAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5497173F2C3DB9C7007FBEAD /* AppDelegate.swift */; };
 		549717422C3DB9C7007FBEAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549717412C3DB9C7007FBEAD /* SceneDelegate.swift */; };
@@ -25,6 +33,14 @@
 
 /* Begin PBXFileReference section */
 		1221D66A478A373EB33B57EB /* Pods-MultiThreadingAndLocalDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiThreadingAndLocalDB.release.xcconfig"; path = "Target Support Files/Pods-MultiThreadingAndLocalDB/Pods-MultiThreadingAndLocalDB.release.xcconfig"; sourceTree = "<group>"; };
+		541564DC2C43C4B300E72144 /* DebouncingResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncingResponseModel.swift; sourceTree = "<group>"; };
+		541564DF2C43CA3500E72144 /* DebouncingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncingCollectionView.swift; sourceTree = "<group>"; };
+		541564E12C4433F700E72144 /* DishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCell.swift; sourceTree = "<group>"; };
+		541564E42C4469CC00E72144 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		541564E72C446D7900E72144 /* error-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "error-anim.json"; sourceTree = "<group>"; };
+		541564EA2C44774F00E72144 /* RecipesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesDataSource.swift; sourceTree = "<group>"; };
+		541564ED2C44782900E72144 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
+		541564EF2C447A3200E72144 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		545A3E592C41B016003D1D8D /* DebouncingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncingVC.swift; sourceTree = "<group>"; };
 		5497173C2C3DB9C7007FBEAD /* MultiThreadingAndLocalDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiThreadingAndLocalDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5497173F2C3DB9C7007FBEAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +72,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		541564DB2C43C49800E72144 /* Dto */ = {
+			isa = PBXGroup;
+			children = (
+				541564DC2C43C4B300E72144 /* DebouncingResponseModel.swift */,
+			);
+			path = Dto;
+			sourceTree = "<group>";
+		};
+		541564DE2C43CA1100E72144 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				54CFD2462C4285240035653D /* Utils.swift */,
+				54CFD2492C429D230035653D /* NetworkHelper.swift */,
+				54CFD24E2C42A6200035653D /* ResponseDelegate.swift */,
+				541564EF2C447A3200E72144 /* Constants.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		541564E32C4469B400E72144 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				541564E42C4469CC00E72144 /* ErrorView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		541564E62C446D6800E72144 /* LottieAnims */ = {
+			isa = PBXGroup;
+			children = (
+				541564E72C446D7900E72144 /* error-anim.json */,
+			);
+			path = LottieAnims;
+			sourceTree = "<group>";
+		};
+		541564E92C44773700E72144 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				541564EA2C44774F00E72144 /* RecipesDataSource.swift */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		541564EC2C44781600E72144 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				541564ED2C44782900E72144 /* ImageViewExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		545A3E5C2C41B7E7003D1D8D /* ApplicationDelegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +176,8 @@
 		54CFD2392C4275560035653D /* Debouncing */ = {
 			isa = PBXGroup;
 			children = (
+				541564E92C44773700E72144 /* DataSources */,
+				541564DB2C43C49800E72144 /* Dto */,
 				54CFD24B2C42A5560035653D /* ViewModels */,
 				54CFD2482C429CD70035653D /* Network */,
 				54CFD23F2C4276FB0035653D /* Views */,
@@ -162,6 +231,8 @@
 			isa = PBXGroup;
 			children = (
 				54CFD2402C4277150035653D /* DebouncingSearchBar.swift */,
+				541564DF2C43CA3500E72144 /* DebouncingCollectionView.swift */,
+				541564E12C4433F700E72144 /* DishCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,9 +248,10 @@
 		54CFD2452C4285130035653D /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				54CFD2462C4285240035653D /* Utils.swift */,
-				54CFD2492C429D230035653D /* NetworkHelper.swift */,
-				54CFD24E2C42A6200035653D /* ResponseDelegate.swift */,
+				541564EC2C44781600E72144 /* Extensions */,
+				541564E62C446D6800E72144 /* LottieAnims */,
+				541564E32C4469B400E72144 /* Views */,
+				541564DE2C43CA1100E72144 /* Utils */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -276,6 +348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				541564E82C446D7900E72144 /* error-anim.json in Resources */,
 				5497174C2C3DB9C8007FBEAD /* LaunchScreen.storyboard in Resources */,
 				549717492C3DB9C8007FBEAD /* Assets.xcassets in Resources */,
 				549717472C3DB9C7007FBEAD /* Main.storyboard in Resources */,
@@ -332,14 +405,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				54CFD24A2C429D230035653D /* NetworkHelper.swift in Sources */,
+				541564F02C447A3200E72144 /* Constants.swift in Sources */,
+				541564EB2C44774F00E72144 /* RecipesDataSource.swift in Sources */,
+				541564EE2C44782900E72144 /* ImageViewExtensions.swift in Sources */,
 				54CFD24D2C42A5680035653D /* DebouncingViewModel.swift in Sources */,
 				54CFD2442C427D0B0035653D /* DebouncingVCExtensions.swift in Sources */,
+				541564DD2C43C4B300E72144 /* DebouncingResponseModel.swift in Sources */,
 				54CFD2412C4277150035653D /* DebouncingSearchBar.swift in Sources */,
+				541564E02C43CA3500E72144 /* DebouncingCollectionView.swift in Sources */,
 				545A3E5A2C41B016003D1D8D /* DebouncingVC.swift in Sources */,
 				54CFD2472C4285240035653D /* Utils.swift in Sources */,
 				549717442C3DB9C7007FBEAD /* HomeVC.swift in Sources */,
 				549717402C3DB9C7007FBEAD /* AppDelegate.swift in Sources */,
 				549717422C3DB9C7007FBEAD /* SceneDelegate.swift in Sources */,
+				541564E52C4469CC00E72144 /* ErrorView.swift in Sources */,
+				541564E22C4433F700E72144 /* DishCell.swift in Sources */,
 				54CFD24F2C42A6200035653D /* ResponseDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
