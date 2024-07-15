@@ -7,22 +7,7 @@
 
 import RxSwift
 import UIKit
-
-/// All targets are set inside this extension
-extension DebouncingVC {
-    func dismissKeyboardOnScreenTap() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-    }
-}
-
-/// Contains implementation of targets
-extension DebouncingVC {
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
+import Shimmer
 
 /// Contains debouncing logic
 extension DebouncingVC: UISearchBarDelegate {
@@ -36,7 +21,10 @@ extension DebouncingVC: UISearchBarDelegate {
         
         debouncingDispatchItem = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
-            
+            DispatchQueue.main.async {
+                self.showShimmer()
+            }
+    
             self.makeApiCallWithSearchQuery()
         }
         
@@ -51,7 +39,8 @@ extension DebouncingVC: UISearchBarDelegate {
     }
 }
 
-/// Initialize and add views to the VC
+
+/// Initialize views and bindings and add views to the VC
 extension DebouncingVC {
     func configure() {
         setupViews()
@@ -70,6 +59,7 @@ extension DebouncingVC {
         debouncingViewModel.recipes
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] recipes in
+                self?.hideShimmer()
                 self?.populateRecipes(recipes)
             })
             .disposed(by: disposeBag)
@@ -77,24 +67,28 @@ extension DebouncingVC {
         debouncingViewModel.error
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] errorMessage in
+                self?.hideShimmer()
                 self?.configureErrorFromApiWith(errorMessage: errorMessage)
             })
             .disposed(by: disposeBag)
     }
     
     private func initializeViews() {
-        collectionView = DebouncingCollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
+        responseCollectionView = DebouncingCollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
+        shimmerCollectionView = DishCellShimmerCollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
     }
     
     private func addViews() {
         view.addSubview(searchBar)
-        view.addSubview(collectionView!)
+        view.addSubview(responseCollectionView!)
     }
     
     private func setCustomPropertiesAndDelegates() {
         searchBar.delegate = self
-        collectionView?.dataSource = dataSource
-        collectionView?.register(DishCell.self, forCellWithReuseIdentifier: DishCell.reuseIdentifier)
+        responseCollectionView?.dataSource = responseDataSource
+        responseCollectionView?.register(DishCell.self, forCellWithReuseIdentifier: DishCell.reuseIdentifier)
+        shimmerCollectionView?.dataSource = shimmerDatasource
+        shimmerCollectionView?.register(DishCellShimmerViewCell.self, forCellWithReuseIdentifier: DishCellShimmerViewCell.reuseIdentifier)
     }
     
     private func setupConstraints() {
@@ -106,14 +100,32 @@ extension DebouncingVC {
             searchBar.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 20)
         ])
         
-        collectionView?.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 5).isActive = true
-        collectionView?.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor).isActive = true
-        collectionView?.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 10).isActive = true
-        collectionView?.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -10).isActive = true
+        responseCollectionView?.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 5).isActive = true
+        responseCollectionView?.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor).isActive = true
+        responseCollectionView?.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 10).isActive = true
+        responseCollectionView?.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -10).isActive = true
     }
     
     private func addTargets() {
         dismissKeyboardOnScreenTap()
+    }
+}
+
+
+/// All targets are assigned inside this extension
+extension DebouncingVC {
+    func dismissKeyboardOnScreenTap() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+}
+
+
+/// Contains implementation of targets
+extension DebouncingVC {
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
@@ -140,13 +152,14 @@ extension DebouncingVC {
 }
 
 
-/// Handle API calls and their responses
+/// Handle API calls and inflates their responses
 extension DebouncingVC {
     func makeApiCallWithSearchQuery() {
         DispatchQueue.main.async {
             let searchQuery: String = self.searchBar.searchTextField.text ?? ""
             
             if searchQuery.isEmpty {
+//                self.hideShimmer()
                 return
             }
             
@@ -177,7 +190,7 @@ extension DebouncingVC {
     }
     
     private func configureErrorFromApiWith(errorMessage: String) {
-        self.collectionView?.removeFromSuperview()
+        self.responseCollectionView?.removeFromSuperview()
         view.addSubview(errorView)
         
         NSLayoutConstraint.activate([
@@ -196,7 +209,7 @@ extension DebouncingVC {
             return
         }
         
-        guard let collectionView = collectionView else {
+        guard let collectionView = responseCollectionView else {
             return
         }
         
@@ -205,7 +218,40 @@ extension DebouncingVC {
         
         self.recipes = recipes
         let newData = self.mapRecipesToDataSource(from: recipes)
-        dataSource.data = newData
+        responseDataSource.data = newData
         collectionView.reloadData()
+    }
+}
+
+
+/// Handles shimmer
+extension DebouncingVC {
+    func showShimmer() {
+        errorView.removeFromSuperview()
+        responseCollectionView?.removeFromSuperview()
+        
+        shimmerView = FBShimmeringView(frame: .zero)
+        shimmerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(shimmerView)
+        
+        NSLayoutConstraint.activate([
+            shimmerView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
+            shimmerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            shimmerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            shimmerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        shimmerView.contentView = shimmerCollectionView
+        
+        shimmerView.isShimmering = true
+    }
+    
+    func hideShimmer() {
+        if shimmerView == nil {
+            return
+        }
+        
+        shimmerView.isShimmering = false
+        shimmerView.removeFromSuperview()
+        shimmerView = nil
     }
 }

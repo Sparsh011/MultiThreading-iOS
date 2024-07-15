@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import Shimmer
 
 class DebouncingVC: UIViewController, UIGestureRecognizerDelegate {
     let searchBar = DebouncingSearchBar()
@@ -14,9 +15,12 @@ class DebouncingVC: UIViewController, UIGestureRecognizerDelegate {
     var debouncingViewModel = DebouncingViewModel()
     let disposeBag = DisposeBag()
     var recipes: [Recipe] = []
-    var collectionView: DebouncingCollectionView?
-    var dataSource = CollectionViewDataSource()
+    var responseCollectionView: DebouncingCollectionView?
+    var shimmerCollectionView: DishCellShimmerCollectionView?
+    var responseDataSource = CollectionViewDataSource()
+    var shimmerDatasource = DishCellShimmerCollectionViewDataSource()
     var errorView = ErrorView()
+    var shimmerView: FBShimmeringView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -29,6 +29,7 @@
 		54CFD24A2C429D230035653D /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CFD2492C429D230035653D /* NetworkHelper.swift */; };
 		54CFD24D2C42A5680035653D /* DebouncingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CFD24C2C42A5680035653D /* DebouncingViewModel.swift */; };
 		54CFD24F2C42A6200035653D /* ResponseDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CFD24E2C42A6200035653D /* ResponseDelegate.swift */; };
+		54FF08762C45BFA9002CED8C /* DishCellShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FF08752C45BFA9002CED8C /* DishCellShimmerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		54CFD2492C429D230035653D /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		54CFD24C2C42A5680035653D /* DebouncingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncingViewModel.swift; sourceTree = "<group>"; };
 		54CFD24E2C42A6200035653D /* ResponseDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDelegate.swift; sourceTree = "<group>"; };
+		54FF08752C45BFA9002CED8C /* DishCellShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCellShimmerView.swift; sourceTree = "<group>"; };
 		A65EA389F34E1ADB0FFCECCF /* Pods-MultiThreadingAndLocalDB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiThreadingAndLocalDB.debug.xcconfig"; path = "Target Support Files/Pods-MultiThreadingAndLocalDB/Pods-MultiThreadingAndLocalDB.debug.xcconfig"; sourceTree = "<group>"; };
 		D03BBCED9A34BA8CDAEC2319 /* Pods_MultiThreadingAndLocalDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MultiThreadingAndLocalDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -233,6 +235,7 @@
 				54CFD2402C4277150035653D /* DebouncingSearchBar.swift */,
 				541564DF2C43CA3500E72144 /* DebouncingCollectionView.swift */,
 				541564E12C4433F700E72144 /* DishCell.swift */,
+				54FF08752C45BFA9002CED8C /* DishCellShimmerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 			files = (
 				54CFD24A2C429D230035653D /* NetworkHelper.swift in Sources */,
 				541564F02C447A3200E72144 /* Constants.swift in Sources */,
+				54FF08762C45BFA9002CED8C /* DishCellShimmerView.swift in Sources */,
 				541564EB2C44774F00E72144 /* RecipesDataSource.swift in Sources */,
 				541564EE2C44782900E72144 /* ImageViewExtensions.swift in Sources */,
 				54CFD24D2C42A5680035653D /* DebouncingViewModel.swift in Sources */,
