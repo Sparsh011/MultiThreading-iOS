@@ -9,44 +9,17 @@ import RxSwift
 import UIKit
 import Shimmer
 
-/// Contains debouncing logic
-extension DebouncingVC: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Handle text changes here
-        
-        if debouncingDispatchItem != nil {
-            debouncingDispatchItem?.cancel()
-            debouncingDispatchItem = nil
-        }
-        
-        debouncingDispatchItem = DispatchWorkItem { [weak self] in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.showShimmer()
-            }
-    
-            self.makeApiCallWithSearchQuery()
-        }
-        
-        // Execute the work item after a delay of 0.8 seconds
-        if let workItem = debouncingDispatchItem {
-            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.8, execute: workItem)
-        }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-}
-
 
 /// Initialize views and bindings and add views to the VC
 extension DebouncingVC {
+    /// Parent function that calls other functions to setup views and bindings
     func configure() {
         setupViews()
         setupBindings()
     }
     
+    
+    /// Used to initialize, add, set custom properties and delegates, and add targets or tap gestures to views.
     private func setupViews() {
         initializeViews()
         addViews()
@@ -55,6 +28,8 @@ extension DebouncingVC {
         addTargets()
     }
     
+    
+    /// Used to setup bindings
     private func setupBindings() {
         debouncingViewModel.recipes
             .observe(on: MainScheduler.instance)
@@ -72,6 +47,7 @@ extension DebouncingVC {
             })
             .disposed(by: disposeBag)
     }
+    
     
     private func initializeViews() {
         responseCollectionView = DebouncingCollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
@@ -108,6 +84,35 @@ extension DebouncingVC {
     
     private func addTargets() {
         dismissKeyboardOnScreenTap()
+    }
+}
+
+/// Contains debouncing logic
+extension DebouncingVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // Handle text changes here
+        
+        if debouncingDispatchItem != nil {
+            debouncingDispatchItem?.cancel()
+            debouncingDispatchItem = nil
+        }
+        
+        debouncingDispatchItem = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.showShimmer()
+                self.makeApiCallWithSearchQuery()
+            }
+        }
+        
+        // Execute the work item after a delay of 0.8 seconds
+        if let workItem = debouncingDispatchItem {
+            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.8, execute: workItem)
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -154,31 +159,33 @@ extension DebouncingVC {
 
 /// Handle API calls and inflates their responses
 extension DebouncingVC {
+    
+    /// Make the api call using the search query inside. Since I am using DispatchWorkItem for debouncing and it works on background thread, so, either switch to Main thread inside this function or from the closure of dispatchworkitem completion.
     func makeApiCallWithSearchQuery() {
-        DispatchQueue.main.async {
-            let searchQuery: String = self.searchBar.searchTextField.text ?? ""
-            
-            if searchQuery.isEmpty {
-//                self.hideShimmer()
-                return
-            }
-            
-            let baseUrl = NetworkConstants.SpoonacularBaseurl.rawValue
-            let apiRoute = NetworkConstants.SpoonacularSearchApiRoute.rawValue
-            let requestParams: [String: Any] = [
-                "query": searchQuery,
-                "apiKey": NetworkConstants.SpoonacularApiKey.rawValue
-            ]
-            
-            self.debouncingViewModel.fetchRecipes(
-                baseUrl: baseUrl,
-                apiRoute: apiRoute,
-                withSearchQuery: searchQuery,
-                requestParams: requestParams
-            )
+        let searchQuery: String = self.searchBar.searchTextField.text ?? ""
+        
+        if searchQuery.isEmpty {
+            self.hideShimmer()
+            return
         }
+        
+        let baseUrl = NetworkConstants.SpoonacularBaseurl.rawValue
+        let apiRoute = NetworkConstants.SpoonacularSearchApiRoute.rawValue
+        let requestParams: [String: Any] = [
+            "query": searchQuery,
+            "apiKey": NetworkConstants.SpoonacularApiKey.rawValue
+        ]
+        
+        self.debouncingViewModel.fetchRecipes(
+            baseUrl: baseUrl,
+            apiRoute: apiRoute,
+            withSearchQuery: searchQuery,
+            requestParams: requestParams
+        )
     }
     
+    
+    /// Map response from api to model class of CollectionView.
     private func mapRecipesToDataSource(from recipes: [Recipe]) -> [CollectionViewData] {
         var newData: [CollectionViewData] = []
         
@@ -189,6 +196,8 @@ extension DebouncingVC {
         return newData
     }
     
+    
+    /// Handle ErrorView along with its corresponding message.
     private func configureErrorFromApiWith(errorMessage: String) {
         self.responseCollectionView?.removeFromSuperview()
         view.addSubview(errorView)
@@ -230,28 +239,25 @@ extension DebouncingVC {
         errorView.removeFromSuperview()
         responseCollectionView?.removeFromSuperview()
         
-        shimmerView = FBShimmeringView(frame: .zero)
-        shimmerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(shimmerView)
-        
-        NSLayoutConstraint.activate([
-            shimmerView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
-            shimmerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            shimmerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            shimmerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        shimmerView.contentView = shimmerCollectionView
-        
-        shimmerView.isShimmering = true
-    }
-    
-    func hideShimmer() {
-        if shimmerView == nil {
+        guard let shimmerCollectionView = shimmerCollectionView else {
             return
         }
         
-        shimmerView.isShimmering = false
-        shimmerView.removeFromSuperview()
-        shimmerView = nil
+        view.addSubview(shimmerCollectionView)
+        NSLayoutConstraint.activate([
+            shimmerCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
+            shimmerCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            shimmerCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            shimmerCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    func hideShimmer() {
+        if shimmerCollectionView == nil {
+            return
+        }
+        
+        shimmerCollectionView?.removeFromSuperview()
+        shimmerCollectionView = nil
     }
 }

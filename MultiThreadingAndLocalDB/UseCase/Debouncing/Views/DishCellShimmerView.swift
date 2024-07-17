@@ -6,9 +6,16 @@
 //
 
 import UIKit
+import Shimmer
 
 class DishCellShimmerViewCell: UICollectionViewCell {
     static let reuseIdentifier = "dish-cell-shimmer-reuse-identifier"
+    let parentShimmerView: FBShimmeringView = {
+       let view = FBShimmeringView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -43,15 +50,17 @@ class DishCellShimmerViewCell: UICollectionViewCell {
 
 extension DishCellShimmerViewCell {
     func configure() {
-        self.contentView.addSubview(containerView)
+        self.contentView.addSubview(parentShimmerView)
         containerView.addSubview(imagePlaceholder)
         containerView.addSubview(titlePlaceholder)
         
+        parentShimmerView.contentView = containerView
+        
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            parentShimmerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            parentShimmerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            parentShimmerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            parentShimmerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             imagePlaceholder.topAnchor.constraint(equalTo: containerView.topAnchor),
             imagePlaceholder.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -63,6 +72,8 @@ extension DishCellShimmerViewCell {
             titlePlaceholder.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titlePlaceholder.heightAnchor.constraint(equalToConstant: 40)
         ])
+        
+        parentShimmerView.isShimmering = true
     }
 }
 
@@ -86,11 +97,9 @@ class DishCellShimmerCollectionView: UICollectionView {
 }
 
 class DishCellShimmerCollectionViewDataSource: NSObject, UICollectionViewDataSource {
-    let data = [
-        0, 0, 0, 0, 0,0,0,0
-    ]
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

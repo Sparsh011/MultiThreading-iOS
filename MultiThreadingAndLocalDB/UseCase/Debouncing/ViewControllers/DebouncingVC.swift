@@ -20,7 +20,6 @@ class DebouncingVC: UIViewController, UIGestureRecognizerDelegate {
     var responseDataSource = CollectionViewDataSource()
     var shimmerDatasource = DishCellShimmerCollectionViewDataSource()
     var errorView = ErrorView()
-    var shimmerView: FBShimmeringView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
